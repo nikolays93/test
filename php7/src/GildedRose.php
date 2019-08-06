@@ -13,7 +13,7 @@ final class GildedRose {
     /**
      * Item name equal $req
      * @param  Item   $item
-     * @param  String $req  serch name
+     * @param  String $req  search name
      * @return bool         is matched
      */
     static public function nameMath(Item $item, $req = '')
