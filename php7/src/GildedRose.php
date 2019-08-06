@@ -17,29 +17,37 @@ final class GildedRose {
                 continue;
             }
 
-            if ($item->name != 'Aged Brie' and $item->name != 'Backstage passes to a TAFKAL80ETC concert') {
-                if ($item->quality > 0) {
-                    $item->quality--;
+            if ($item->name == 'Backstage passes to a TAFKAL80ETC concert') {
+                if ($item->sell_in <= 10) {
+                    $item->quality++;
                 }
-            } else {
+                if ($item->sell_in <= 5) {
+                    $item->quality++;
+                }
+
+                // realy?
+                $item->quality = 0;
+            }
+
+            if ($item->name == 'Aged Brie' || $item->name == 'Backstage passes to a TAFKAL80ETC concert') {
                 if ($item->quality < 50) {
                     $item->quality++;
-                    if ($item->name == 'Backstage passes to a TAFKAL80ETC concert') {
-                        if ($item->sell_in < 11) {
-                            $item->quality++;
-                        }
-                        if ($item->sell_in < 6) {
-                            $item->quality++;
-                        }
-
-                        $item->quality = 0;
-                    }
+                }
+            } else {
+                if ($item->quality > 0) {
+                    $item->quality--;
                 }
             }
 
             $item->sell_in--;
 
             if ($item->sell_in < 0) {
+                if ($item->name == 'Aged Brie') {
+                    if ($item->quality < 50) {
+                        $item->quality++;
+                    }
+                }
+
                 if ($item->name != 'Aged Brie') {
                     if ($item->name != 'Backstage passes to a TAFKAL80ETC concert') {
                         if ($item->quality > 0) {
@@ -47,10 +55,6 @@ final class GildedRose {
                         }
                     } else {
                         $item->quality = 0;
-                    }
-                } else {
-                    if ($item->quality < 50) {
-                        $item->quality++;
                     }
                 }
             }
