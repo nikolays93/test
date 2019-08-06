@@ -15,7 +15,7 @@ class AgedBrie extends Product
         $this->item->quality++;
 
         // Once the sell by date has passed, Quality degrades twice as fast
-        if($this->item->sell_in <= 0) {
+        if ($this->item->sell_in <= 0) {
             $this->item->quality++;
         }
 

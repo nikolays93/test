@@ -11,35 +11,35 @@ final class GildedRose
 {
     private $items = [];
 
-    public function __construct($items) {
+    public function __construct($items)
+    {
         $this->items = $items;
     }
 
     /**
      * Item name equal $req
-     * @param  String $req  search name
+     *
+     * @param String $req search name
+     *
      * @return bool         is matched
      */
     public static function matchName(Item $item, $req = '')
     {
-        return (bool) preg_match('/' . $req . '/ui', $item->name);
+        return (bool)preg_match('/' . $req . '/ui', $item->name);
     }
 
-    public function updateQuality() {
+    public function updateQuality()
+    {
         foreach ($this->items as $item) {
             if (static::matchName($item, 'Sulfuras')) {
                 $Product = new Sulfuras($item);
-            }
-            else if(static::matchName($item, 'Backstage passes')) {
+            } elseif (static::matchName($item, 'Backstage passes')) {
                 $Product = new BackstagePasses($item);
-            }
-            else if(static::matchName($item, 'Aged Brie')) {
+            } elseif (static::matchName($item, 'Aged Brie')) {
                 $Product = new AgedBrie($item);
-            }
-            else if(static::matchName($item, 'Conjured')) {
-	            $Product = new Conjured($item);
-            }
-            else {
+            } elseif (static::matchName($item, 'Conjured')) {
+                $Product = new Conjured($item);
+            } else {
                 $Product = new Product($item);
             }
 
