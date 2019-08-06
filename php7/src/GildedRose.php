@@ -46,41 +46,54 @@ final class GildedRose {
             }
 
             if (static::nameMath($item, 'Backstage passes')) {
+                // Quality increases by 2 when there are 10 days or less
                 if ($item->sell_in <= 10) {
-                    $item->quality++;
+                    $item->quality += 2;
+                }
+                // Quality increases by 3 when there are 5 days or less
+                elseif ($item->sell_in <= 5) {
+                    $item->quality += 3;
                 }
 
-                if ($item->sell_in <= 5) {
+                else {
                     $item->quality++;
                 }
             }
 
-            if (static::nameMath($item, 'Aged Brie') || static::nameMath($item, 'Backstage passes')) {
+            $item = static::updateSellIn($item);
+
+            // "Aged Brie" actually increases in Quality the older it gets
+            // @todo refine, increases after sell_in < 0 only
+            if (static::nameMath($item, 'Aged Brie')) {
                 $item->quality++;
-            } else {
+
+                if($item->sell_in < 0) {
+                    $item->quality++;
+                }
+            } elseif (!static::nameMath($item, 'Backstage passes')) {
+                // The Quality of an item is never negative
                 if ($item->quality > 0) {
                     $item->quality--;
                 }
             }
 
-            if (static::nameMath($item, 'concert')) {
-                $item->quality = 0;
-            }
-
-            $item = static::updateSellIn($item);
-
             if ($item->sell_in < 0) {
-                if (static::nameMath($item, 'Aged Brie')) {
-                    $item->quality++;
-                } else {
+                if (!static::nameMath($item, 'Aged Brie') && !static::nameMath($item, 'Backstage passes')) {
+                    // The Quality of an item is never negative
                     if ($item->quality > 0) {
                         $item->quality--;
                     }
                 }
             }
 
+            // The Quality of an item is never more than 50
             if( $item->quality > 50 ) {
                 $item->quality = 50;
+            }
+
+            // Quality drops to 0 after the concert
+            if (static::nameMath($item, 'concert')) {
+                $item->quality = 0;
             }
         }
     }
