@@ -49,8 +49,17 @@ final class GildedRose {
                 if ($item->sell_in <= 10) {
                     $item->quality++;
                 }
+
                 if ($item->sell_in <= 5) {
                     $item->quality++;
+                }
+            }
+
+            if (static::nameMath($item, 'Aged Brie') || static::nameMath($item, 'Backstage passes')) {
+                $item->quality++;
+            } else {
+                if ($item->quality > 0) {
+                    $item->quality--;
                 }
             }
 
@@ -58,28 +67,20 @@ final class GildedRose {
                 $item->quality = 0;
             }
 
-            if (static::nameMath($item, 'Aged Brie') || static::nameMath($item, 'Backstage passes')) {
-                if ($item->quality < 50) {
-                    $item->quality++;
-                }
-            } else {
-                if ($item->quality > 0) {
-                    $item->quality--;
-                }
-            }
-
             $item = static::updateSellIn($item);
 
             if ($item->sell_in < 0) {
                 if (static::nameMath($item, 'Aged Brie')) {
-                    if ($item->quality < 50) {
-                        $item->quality++;
-                    }
+                    $item->quality++;
                 } else {
                     if ($item->quality > 0) {
                         $item->quality--;
                     }
                 }
+            }
+
+            if( $item->quality > 50 ) {
+                $item->quality = 50;
             }
         }
     }
