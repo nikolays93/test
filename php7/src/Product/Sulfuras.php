@@ -2,24 +2,13 @@
 
 namespace App\Product;
 
-use App\Product;
+use App\AbstractProduct;
 
-class Sulfuras extends Product
+class Sulfuras extends AbstractProduct
 {
-    /**
-     * Decrase sell in property
-     * @override
-     */
-    public function updateSellIn()
+    public function getQualityAdjust(): Int
     {
-        // do not decrase in Sulfuras
-    }
-
-    /**
-     * @override
-     */
-    public function updateQuality()
-    {
-        $this->item->quality = 80;
+        // do not change quality
+        return 0;
     }
 }

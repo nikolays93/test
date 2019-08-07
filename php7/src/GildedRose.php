@@ -5,6 +5,7 @@ namespace App;
 use App\Product\AgedBrie;
 use App\Product\BackstagePasses;
 use App\Product\Conjured;
+use App\Product\DefaultProduct;
 use App\Product\Sulfuras;
 
 final class GildedRose
@@ -40,16 +41,11 @@ final class GildedRose
             } elseif (static::matchName($item, 'Conjured')) {
                 $Product = new Conjured($item);
             } else {
-                $Product = new Product($item);
+                $Product = new DefaultProduct($item);
             }
 
             $Product->updateQuality();
             $Product->updateSellIn();
-
-            // Quality drops to 0 after the concert
-            if (static::matchName($item, 'concert')) {
-                // $Product->setQuality(0);
-            }
         }
     }
 }

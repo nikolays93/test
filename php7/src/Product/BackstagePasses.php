@@ -2,28 +2,26 @@
 
 namespace App\Product;
 
-use App\Product;
+use App\AbstractProduct;
 
-class BackstagePasses extends Product
+class BackstagePasses extends AbstractProduct
 {
-    /**
-     * @override
-     */
-    public function updateQuality()
+    public function getQualityAdjust(): Int
     {
+        $sellIn = $this->getSellIn();
+        $adjust = 1;
         // Quality drops to 0 after the concert
-        if ($this->item->sell_in <= 0) {
-            $this->item->quality = 0;
+        if ($sellIn <= 0) {
+            // reset quality
+            $adjust = -$this->getQuality();
         } // Quality increases by 3 when there are 5 days or less
-        elseif ($this->item->sell_in <= 5) {
-            $this->item->quality += 3;
+        elseif($sellIn <= 5) {
+            $adjust = 3;
         } // Quality increases by 2 when there are 10 days or less
-        elseif ($this->item->sell_in <= 10) {
-            $this->item->quality += 2;
-        } else {
-            $this->item->quality++;
+        elseif($sellIn <= 10) {
+            $adjust = 2;
         }
 
-        parent::stableQuality();
+        return $adjust;
     }
 }

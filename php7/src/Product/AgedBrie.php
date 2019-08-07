@@ -2,23 +2,20 @@
 
 namespace App\Product;
 
-use App\Product;
+use App\AbstractProduct;
 
-class AgedBrie extends Product
+class AgedBrie extends AbstractProduct
 {
-    /**
-     * @override
-     */
-    public function updateQuality()
+    public function getQualityAdjust(): Int
     {
         // "Aged Brie" actually increases in Quality the older it gets
-        $this->item->quality++;
+        $adjust = 1;
 
         // Once the sell by date has passed, Quality degrades twice as fast
-        if ($this->item->sell_in <= 0) {
-            $this->item->quality++;
+        if ($this->getSellIn() <= 0) {
+            $adjust++;
         }
 
-        parent::stableQuality();
+        return $adjust;
     }
 }

@@ -2,22 +2,18 @@
 
 namespace App\Product;
 
-use App\Product;
+use App\AbstractProduct;
 
-class Conjured extends Product
+class Conjured extends AbstractProduct
 {
-    /**
-     * @override
-     */
-    public function updateQuality()
+    public function getQualityAdjust(): Int
     {
-        $this->item->quality -= 2;
-
+        $adjust = -2;
         // Once the sell by date has passed, Quality degrades twice as fast
-        if ($this->item->sell_in <= 0) {
-            $this->item->quality -= 2;
+        if ($this->getSellIn() <= 0) {
+            $adjust -= 2;
         }
 
-        parent::stableQuality();
+        return $adjust;
     }
 }
