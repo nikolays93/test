@@ -17,31 +17,29 @@ final class GildedRose
         $this->items = $items;
     }
 
-    /**
-     * Item name equal $req
-     *
-     * @param String $req search name
-     *
-     * @return bool         is matched
-     */
-    public static function matchName(Item $item, $req = '')
-    {
-        return (bool)preg_match('/' . $req . '/ui', $item->name);
-    }
-
     public function updateQuality()
     {
         foreach ($this->items as $item) {
-            if (static::matchName($item, 'Sulfuras')) {
-                $Product = new Sulfuras($item);
-            } elseif (static::matchName($item, 'Backstage passes')) {
-                $Product = new BackstagePasses($item);
-            } elseif (static::matchName($item, 'Aged Brie')) {
-                $Product = new AgedBrie($item);
-            } elseif (static::matchName($item, 'Conjured')) {
-                $Product = new Conjured($item);
-            } else {
-                $Product = new DefaultProduct($item);
+            switch ($item->name) {
+                case 'Sulfuras, Hand of Ragnaros':
+                    $Product = new Sulfuras($item);
+                    break;
+
+                case 'Backstage passes to a TAFKAL80ETC concert':
+                    $Product = new BackstagePasses($item);
+                    break;
+
+                case 'Aged Brie':
+                    $Product = new AgedBrie($item);
+                    break;
+
+                case 'Conjured Mana Cake':
+                    $Product = new Conjured($item);
+                    break;
+
+                default:
+                    $Product = new DefaultProduct($item);
+                    break;
             }
 
             $Product->updateQuality();
