@@ -2,20 +2,15 @@
 
 namespace App\Product;
 
-use App\AbstractProduct;
+use App\ProductAdjustable;
 
-class AgedBrie extends AbstractProduct
+class AgedBrie extends ProductAdjustable
 {
+    const ADJUST = 1;
+
     public function getQualityAdjust(): Int
     {
         // "Aged Brie" actually increases in Quality the older it gets
-        $adjust = 1;
-
-        // Once the sell by date has passed, Quality degrades twice as fast
-        if ($this->getSellIn() <= 0) {
-            $adjust++;
-        }
-
-        return $adjust;
+        return static::ADJUST;
     }
 }

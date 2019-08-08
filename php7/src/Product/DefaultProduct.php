@@ -4,13 +4,12 @@ namespace App\Product;
 
 use App\ProductAdjustable;
 
-class Conjured extends ProductAdjustable
+class DefaultProduct extends ProductAdjustable
 {
-    const ADJUST = 2;
+    const ADJUST = -1;
 
     public function getQualityAdjust(): Int
     {
-        // "Conjured" items degrade in Quality twice as fast as normal items
         return static::ADJUST;
     }
 }

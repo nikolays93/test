@@ -2,13 +2,8 @@
 
 namespace App\Product;
 
-use App\AbstractProduct;
+use App\ProductLegendary;
 
-class Sulfuras extends AbstractProduct
+class Sulfuras extends ProductLegendary
 {
-    public function getQualityAdjust(): Int
-    {
-        // do not change quality
-        return 0;
-    }
 }
