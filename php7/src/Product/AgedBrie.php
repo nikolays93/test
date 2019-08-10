@@ -6,11 +6,6 @@ use App\ProductAdjustable;
 
 class AgedBrie extends ProductAdjustable
 {
-    const ADJUST = 1;
-
-    public function getQualityAdjust(): Int
-    {
-        // "Aged Brie" actually increases in Quality the older it gets
-        return static::ADJUST;
-    }
+    // "Aged Brie" actually increases in Quality the older it gets
+    protected static $adjustQuality = 1;
 }

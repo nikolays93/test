@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Traits\SellIn;
+use App\Interfaces\IProduct;
+
 /**
  * Do not change quality
  */
@@ -18,5 +21,7 @@ abstract class ProductLegendary extends Product implements IProduct
     // pass quality
     function updateQuality()
     {
+        // Default quality may be 50 max, do not use it.
+        // $this->setQuality(80);
     }
 }

@@ -2,18 +2,28 @@
 
 namespace App;
 
-Interface Adjustments
-{
-    function getQualityAdjust(): int;
-    function getSellInAdjust(): int;
-}
+use App\Exceptions\adjustQualityNotDefinedException;
+use App\Traits\SellIn;
+use App\Interfaces\IProduct;
+use App\Interfaces\Adjustments;
 
 /**
  * change quality by adjust param
  */
-abstract class ProductAdjustable extends Product implements IProduct // , Adjustments
+abstract class ProductAdjustable extends Product implements IProduct, Adjustments
 {
     use SellIn;
+
+    private static $adjustQuality = null;
+
+    function getQualityAdjust(): float
+    {
+        if ( ! isset(static::$adjustQuality) || null === static::$adjustQuality) {
+            throw new adjustQualityNotDefinedException(get_called_class());
+        }
+
+        return static::$adjustQuality;
+    }
 
     /**
      * Update quality by adjust
@@ -21,7 +31,7 @@ abstract class ProductAdjustable extends Product implements IProduct // , Adjust
     function updateQuality()
     {
         $newQuality = $this->getQuality();
-        $adjust = $this->getQualityAdjust();
+        $adjust     = $this->getQualityAdjust();
 
         $newQuality += $adjust;
         // Once the sell by date has passed, Quality (de)grades twice as fast

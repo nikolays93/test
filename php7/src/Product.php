@@ -2,17 +2,11 @@
 
 namespace App;
 
-Interface IProduct
-{
-    function updateQuality();
-    function updateSellIn();
-}
-
 abstract class Product
 {
     private $item;
 
-    public function __construct(Item $item)
+    public function __construct($item)
     {
         $this->item = $item;
     }
@@ -20,9 +14,9 @@ abstract class Product
     /**
      * Getter
      *
-     * @return Int
+     * @return float
      */
-    public function getSellIn(): Int
+    public function getSellIn(): float
     {
         return $this->item->sell_in;
     }
@@ -30,9 +24,9 @@ abstract class Product
     /**
      * Setter
      *
-     * @param Int $sellIn
+     * @param float $sellIn
      */
-    public function setSellIn(Int $sellIn)
+    public function setSellIn(float $sellIn)
     {
         $this->item->sell_in = $sellIn;
     }
@@ -42,7 +36,7 @@ abstract class Product
      *
      * @return mixed
      */
-    public function getQuality()
+    public function getQuality(): float
     {
         return $this->item->quality;
     }
@@ -50,15 +44,19 @@ abstract class Product
     /**
      * Setter
      *
-     * @param Int $quality
+     * @param float $quality
      */
-    public function setQuality(Int $quality)
+    public function setQuality(float $quality)
     {
         // The Quality of an item is never more than 50
-        if ($quality > 50) $quality = 50;
+        if ($quality > 50) {
+            $quality = 50;
+        }
 
         // The Quality of an item is never negative
-        if ($quality < 0) $quality = 0;
+        if ($quality < 0) {
+            $quality = 0;
+        }
 
         $this->item->quality = $quality;
     }
