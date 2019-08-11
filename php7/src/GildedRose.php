@@ -12,38 +12,95 @@ final class GildedRose
 {
     private $items = [];
 
-    public function __construct($items)
+    public function __construct($items = array())
     {
-        $this->items = $items;
+        $this->add($items);
     }
 
-    public function updateQuality()
+    /**
+     * Set item objects
+     */
+    public function build()
     {
-        foreach ($this->items as $item) {
+        foreach ($this->items as &$item) {
             switch ($item->name) {
                 case 'Sulfuras, Hand of Ragnaros':
-                    $Product = new Sulfuras($item);
+                    $item = new Sulfuras($item);
                     break;
 
                 case 'Backstage passes to a TAFKAL80ETC concert':
-                    $Product = new BackstagePasses($item);
+                    $item = new BackstagePasses($item);
                     break;
 
                 case 'Aged Brie':
-                    $Product = new AgedBrie($item);
+                    $item = new AgedBrie($item);
                     break;
 
                 case 'Conjured Mana Cake':
-                    $Product = new Conjured($item);
+                    $item = new Conjured($item);
                     break;
 
                 default:
-                    $Product = new DefaultProduct($item);
+                    $item = new DefaultProduct($item);
                     break;
             }
-
-            $Product->updateQuality();
-            $Product->updateSellIn();
         }
+
+        return $this;
+    }
+
+    /**
+     * Update quality and sell in
+     */
+    public function update()
+    {
+        foreach ($this->items as $item) {
+            $item->updateQuality();
+            $item->updateSellIn();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return all items as array.
+     *
+     * @return array
+     */
+    public function fetch()
+    {
+        return $this->items;
+    }
+
+    /**
+     * Get element by offset (index)
+     *
+     * @param $offset
+     * @return mixed
+     */
+    public function get($offset = 0)
+    {
+        if (isset($this->items[$offset])) {
+            return $this->items[$offset];
+        }
+        return null;
+    }
+
+    /**
+     * Add item to collection.
+     *
+     * @param array|object $item
+     */
+    public function add($item)
+    {
+        if (is_array($item)) {
+            foreach ($item as $i) {
+                $this->add($i);
+            }
+        } else {
+            $this->items[] = $item;
+        }
+
+        return $this;
     }
 }
