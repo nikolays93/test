@@ -76,6 +76,7 @@ final class GildedRose
      * Get element by offset (index)
      *
      * @param $offset
+     *
      * @return mixed
      */
     public function get($offset = 0)
@@ -83,6 +84,7 @@ final class GildedRose
         if (isset($this->items[$offset])) {
             return $this->items[$offset];
         }
+
         return null;
     }
 
