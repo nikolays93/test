@@ -7,6 +7,31 @@ use App\Product\DefaultProduct;
 class GildedRoseTest extends \PHPUnit\Framework\TestCase
 {
     public function defaultItemsDataClassNameProvider()
+    /**
+     * @param string $itemName
+     * @param string $exceptedClass
+     * @param array $rawArray [
+            float $sellIn,
+            float $quality,
+            float $exceptionSellIn,
+            float $exceptionQuality]
+     *
+     * @return array $preparedArray
+     */
+    private function combineArrayProvider(string $itemName, string $exceptedClass, array $rawArray): array
+    {
+        /**
+         * Prepare for exclude copy-paste
+         *
+         * array($itemName, $exceptedClass, 1, 1, 0, 0),
+         * array($itemName, $exceptedClass, 0, 10, -1, 8) ...
+         */
+        return array_map(function ($preparedArray) use ($itemName, $exceptedClass) {
+            array_unshift($preparedArray, $itemName, $exceptedClass);
+
+            return $preparedArray;
+        }, $rawArray);
+    }
     {
         $itemName      = 'UndefinedName';
         $exceptedClass = DefaultProduct::class;
