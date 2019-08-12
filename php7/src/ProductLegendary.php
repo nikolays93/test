@@ -18,8 +18,13 @@ abstract class ProductLegendary extends Product implements IProduct
         parent::__construct($item);
     }
 
+    // pass sellIn
+    public function updateSellIn()
+    {
+    }
+
     // pass quality
-    function updateQuality()
+    public function updateQuality()
     {
         // Default quality may be 50 max, do not use it.
         // $this->setQuality(80);
